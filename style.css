@@ -1,0 +1,101 @@
+header {
+    background: antiquewhite;
+    width: 100%
+}
+
+main {
+    width: 100%;
+    align-content: center;
+    line-height: 23px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 50px;
+    justify-content: center;
+}
+
+#dlbutton{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#articles {
+    justify-content: center;
+}
+
+main section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card {
+    max-width: 300px;
+    margin: 5px;
+}
+
+.card img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card button {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    top: -20px;
+    left: 245px;
+    position: relative;
+    display: flex;
+    padding: 5px 5px;
+    text-align: center;
+
+}
+
+.card-img-overlay {
+    opacity: 50%;
+    transition: opacity ease .5s;
+    display: flex;
+    flex-direction: row;
+}
+
+.card-img-overlay:hover {
+    opacity: 100%;
+}
+
+.cardtext {
+    position: relative;
+    left: -30px;
+}
+
+form {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    border: black solid 1px;
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#about {
+    display: none;
+}
+
+footer {
+    margin-top: 10px;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover {
+    color: white;
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP1</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<header class="navbar navbar-light bg-light">
+    <h1 class="navbar-brand">Les Animaux</h1>
+</header>
+<main>
+    <button type="button" id="dlbutton" class="btn btn-primary btn-lg" onclick="downloadArticles()">Télécharger</button>
+    <section id="articles">
+        <div class="card bg-dark text-white" id="button-1">
+            <img class="card-img"
+                 src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Male_mallard_standing.jpg"
+                 alt="Card image cap">
+            <div class="card-img-overlay">
+                <button type="button" onclick="deletethis('button-1')">❌</button>
+                <div class="cardtext">
+                    <h5 class="card-title">Canard</h5>
+                    <p class="card-text">Ceci est un Canard</p>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-dark text-white" id="button-2">
+            <img class="card-img"
+                 src="https://upload.wikimedia.org/wikipedia/commons/5/56/Paloma_bravía_%28Columba_livia%29%2C_Palacio_de_Nymphenburg%2C_Múnich%2C_Alemania01.JPG  "
+                 alt="Card image cap">
+            <div class="card-img-overlay">
+                <button type="button" onclick="deletethis('button-2')">❌</button>
+                <div class="cardtext">
+                    <h5 class="card-title">Pigeon</h5>
+                    <p class="card-text">Ceci est un Pigeon</p></div>
+            </div>
+        </div>
+        <div class="card bg-dark text-white" id="button-3">
+            <img class="card-img"
+                 src="https://lemagdesanimaux.ouest-france.fr/images/dossiers/2019-12/pic-vert-1-083033.jpg"
+                 alt="Card image cap">
+            <div class="card-img-overlay">
+                <button type="button" onclick="deletethis('button-3')">❌</button>
+                <div class="cardtext">
+                    <h5 class="card-title">Pivert</h5>
+                    <p class="card-text">Ceci est un Pivert</p></div>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        Ce site est fait par qqn de très fort
+    </section>
+    <form>
+        <div class="form-group">
+            <label for="inputTitle">Titre</label>
+            <input type="text" class="form-control" id="inputTitle" placeholder="Entrez le Titre">
+        </div>
+        <div class="form-group">
+            <label for="inputArticle">Article</label>
+            <textarea class="form-control" id="inputArticle" rows="4" placeholder="Entrez l'article"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="inputURL">URL</label>
+            <input type="text" class="form-control" id="inputURL" placeholder="Entrez l'URL de l'image">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addArticle()">Ajouter</button>
+    </form>
+    <script>
+        showpage();
+        let articlenumber = 3;
+        let lastarticle = [];
+
+        function addArticle(t = null, a = null, u = null) {
+            let inputtitle = t;
+            let inputarticle = a;
+            let inputurl = u;
+            if (!(t && a && u)) {
+                inputtitle = document.getElementById("inputTitle").value;
+                inputarticle = document.getElementById("inputArticle").value;
+                inputurl = document.getElementById("inputURL").value;
+            }
+            let newarticle = document.createElement("div");
+            newarticle.classList.add("card");
+            articlenumber++;
+            newarticle.id = `button-${articlenumber}`;
+            newarticle.classList.add("bg-dark");
+            newarticle.classList.add("text-white");
+            let img = document.createElement("img");
+            img.classList.add("card-img");
+            img.src = inputurl;
+            img.alt = "Image";
+            let card = document.createElement("div");
+            card.classList.add("card-img-overlay");
+            let cardtext = document.createElement("div");
+            cardtext.classList.add("cardtext");
+            let title = document.createElement("h5");
+            title.classList.add("card-title");
+            title.appendChild(document.createTextNode(inputtitle));
+            let paragraph = document.createElement("p");
+            paragraph.classList.add("card-text");
+            paragraph.appendChild(document.createTextNode(inputarticle));
+            let deletebutton = document.createElement("button");
+            deletebutton.type = "button";
+            deletebutton.setAttribute('onclick', `deletethis("button-${articlenumber}")`)
+            deletebutton.appendChild(document.createTextNode('❌'))
+            cardtext.appendChild(title);
+            cardtext.appendChild(paragraph);
+            card.appendChild(deletebutton);
+            card.appendChild(cardtext);
+            newarticle.appendChild(img);
+            newarticle.appendChild(card);
+            document.getElementById("articles").appendChild(newarticle);
+        }
+
+        function deletethis(id) {
+            lastarticle.push(document.getElementById(id));
+            document.getElementById(id).remove();
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 'z') {
+                if (lastarticle.length !== 0) {
+                    document.getElementById("articles").appendChild(lastarticle[lastarticle.length - 1]);
+                    lastarticle.pop();
+                }
+            }
+        });
+
+        function showpage() {
+            let hash = window.location.hash;
+            if (hash === "#about") {
+                document.getElementById("articles").style.display = 'none';
+                document.getElementById("about").style.display = 'block';
+            } else {
+                document.getElementById("articles").style.display = 'flex';
+                document.getElementById("about").style.display = 'none';
+            }
+        }
+
+
+        async function downloadArticles() {
+            await fetch("https://my-json-server.typicode.com/musinux/fake-json/articles")
+                .then(res => res.json())
+                .then(json => {
+                    json.forEach(art => {
+                        addArticle(art.title, art.content, art.url);
+                    })
+                });
+        }
+
+        window.onhashchange = function () {
+            showpage();
+        }
+    </script>
+</main>
+<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+        <small>Made by Samuel <br> <a href="#about">About</a> <br><a href="#">Articles</a></small>
+    </div>
+</footer>
+</body>
+</html>
